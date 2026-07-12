@@ -1,0 +1,19 @@
+# my system files
+.log
+.info
+
+# temporal files
+.tmp
+.temp
+
+# system files
+.sys
+
+# vars
+.env
+
+# folders
+/logs
+/temp
+/var
+/system
