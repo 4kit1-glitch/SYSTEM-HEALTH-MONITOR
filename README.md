@@ -1,1 +1,15 @@
 # SYSTEM HEALTH MONITOR
+
+A full system health analyser for linux and mac os
+
+---
+## capabilities
+- 
+
+## Tools
+- bash
+- python
+
+##
+THIS FIRST VERSION IS DESIGNED TO ONLY MONITOR HEALTH AND MAKE ASSUMPTIONS ON CUMMULATED DATA WETHER SYSTEM HEALTH DROPPED OR IMPROVED 
+ 
