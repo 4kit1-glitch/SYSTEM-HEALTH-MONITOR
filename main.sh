@@ -21,17 +21,26 @@ get_mem_info() {
 
                 # process short ram info
                 short_ram_info="$(free -h | sed -n '/Mem/p' | 
-                    awk '{ printf "total: %10s\nused: %11s\navailable: %6s\n", $2, $3, $7 end}' | 
+                    awk '{ printf "total: %10s\nused: %11s\navailable: %6s", $2, $3, $7 end}' | 
                     sed 's/Gi/Gb/')"
                 
                 ;;
             "ROM")
                 # process short rom info
                 # non existent - shift to bios info
+                ;;
+
+            "cache")
+                cache_info="$(free -h | sed -n '/Mem/p' | awk '{ printf "cached ram: %7s", $6}' | sed 's/Gi/Gb/g')"
+                ;;
+
+            "secondary")
+                short_str_info=""
                 
+                ;;
             esac
         shift
     done
 }
 
-get_mem_info
+get_mem_info cache
