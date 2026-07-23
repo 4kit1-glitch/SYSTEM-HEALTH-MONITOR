@@ -49,9 +49,11 @@ get_mem_info() {
             "gpu")
                 # gpu info for short wont be available at the moment
                 ;;
+            *)
+                # invalid option handling happens here 
+                echo wrong option
+                ;;
             esac
         shift
     done
 }
-
-get_mem_info cpu
