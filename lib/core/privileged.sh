@@ -21,5 +21,5 @@ run_privileged() {
 # remove sudo privileges
 kill_sudo() {
     [[ $EUID -eq 0 ]] && sudo -k
-    return 
+    return $?
 }
