@@ -6,7 +6,7 @@ set -euo pipefail
 
 
 #----------------------- GLOBAL VARS--------------------
-
+export SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 # ---------- GETTERS ---------------------------------
 
