@@ -9,7 +9,7 @@ run_privileged() {
         return $?
     fi
     # control user decision
-    read -rp "Process requires super user privilages: proceed with sudo? [y/n]: " response
+    read -rp "Process requires super user privileges: proceed with sudo? [y/n]: " response
     if [[ $response =~ ^[Yy]$ ]]; then 
         sudo "$@"
     else 
