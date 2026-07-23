@@ -47,7 +47,7 @@ get_mem_info() {
                 echo $short_cpu_info
                 ;;
             "gpu")
-            
+                # gpu info for short wont be available at the moment
                 ;;
             esac
         shift
