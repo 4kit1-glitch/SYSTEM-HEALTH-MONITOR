@@ -10,12 +10,16 @@ set -euo pipefail
 #---------------RAM-----------------------------
 # quick details about ram 
 get_short_ram_info() {
-
+    short_ram_info="$(free -h | sed -n '/Mem/p' | 
+                    awk '{ printf "total: %10s\nused: %11s\navailable: %6s", $2, $3, $7 end}' | 
+                    sed 's/Gi/Gb/')"
+    
+    return $short_ram_info
 }
 
 # full details about ram
 get_full_ram_info() {
-
+    
 }
 
 #------------------ CACHE-------------------------
@@ -31,5 +35,7 @@ get_ext_cache_info() {
 }
 
 # ---------------- processes --------------------------
+generate_memory_summary() {
 
+}
 
