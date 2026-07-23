@@ -15,20 +15,23 @@ get_mem_info() {
 
     while (( $# )); do
         case $1 in
-            "${storage_terms[0]}")
+            "RAM")
+                # process full ram info
                 full_ram_info=""
 
                 # process short ram info
                 short_ram_info="$(free -h | sed -n '/Mem/p' | 
                     awk '{ printf "total: %10s\nused: %11s\navailable: %6s\n", $2, $3, $7 end}' | 
                     sed 's/Gi/Gb/')"
-                echo "$short_ram_info"
                 
                 ;;
+            "ROM")
+                # process short rom info
+                # non existent - shift to bios info
+                
             esac
-
         shift
     done
 }
 
-get_mem_info RAM
+get_mem_info
