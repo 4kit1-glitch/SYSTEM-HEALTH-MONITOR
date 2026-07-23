@@ -14,11 +14,12 @@ get_short_ram_info() {
                         awk '{ printf "total: %10s\nused: %11s\navailable: %6s", $2, $3, $7 end}' | 
                         sed 's/Gi/Gb/')"
     
-    printf "$short_ram_info"
+    printf "%s\n" "$short_ram_info"
 }
 
 # full details about ram
 get_full_ram_info() {
+
     echo p
 }
 
