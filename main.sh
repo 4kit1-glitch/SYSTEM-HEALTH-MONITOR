@@ -5,55 +5,15 @@
 set -euo pipefail
 
 
-#----------------------- GLOBAL VARS--------------------
+#----------------------- GLOBAL VARS----------------------------
 export SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
-# ---------- GETTERS ---------------------------------
 
-get_mem_info() {
-    declare -A mem_info
+# ----------------------- source scripts ---------------------
 
-    while (( $# )); do
-        case $1 in
-            "RAM")
-                # process full ram info
-                full_ram_info=""
+# source core scripts
+for script in "$( ls lib/core)"; do
+    source "lib/core/$script"
+done
 
-                # process short ram info
-                short_ram_info="$(free -h | sed -n '/Mem/p' | 
-                    awk '{ printf "total: %10s\nused: %11s\navailable: %6s", $2, $3, $7 end}' | 
-                    sed 's/Gi/Gb/')"
-                
-                ;;
-            "ROM")
-                # process short rom info
-                # non existent - shift to bios info
-                ;;
-
-            "cache")
-                # get cache info 
-                cache_info="$(free -h | sed -n '/Mem/p' | 
-                awk '{ printf "cached ram: %7s", $6}' | sed 's/Gi/Gb/g')"
-                ;;
-
-            "secondary")
-                short_str_info="$(lsblk -d -o NAME,SIZE,TYPE)"
-                echo $short_str_info
-                ;;
-            "cpu")
-                # short cpu info
-                short_cpu_info="$(lscpu | grep "Model name" |
-                awk '{ print $0 "\ngeneration: " $3 "\nprocessing speed: " $9 "\nmanufacturer: " $5$6 "\nversion: "$7}')"
-                echo $short_cpu_info
-                ;;
-            "gpu")
-                # gpu info for short wont be available at the moment
-                ;;
-            *)
-                # invalid option handling happens here 
-                echo wrong option
-                ;;
-            esac
-        shift
-    done
-}
+echo $X
