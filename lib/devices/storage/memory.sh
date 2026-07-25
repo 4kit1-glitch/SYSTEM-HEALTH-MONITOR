@@ -25,25 +25,22 @@ get_full_ram_info() {
         grep -Ei "Number of devices" | awk '{ print $4}'
     )"
 
-    local full_mem_info="$(
+    run_privileged dmidecode -t memory | sed -E -n -f "$FEATURE_DIR/full_ram.sed" |
+    awk 'NR%8==1 {print "----- device" ++n " ----"} 1'
 
-        run_privileged dmidecode -t memory | sed -E -n -f "$FEATURE_DIR/full_ram.sed"
-
-    )"
-
-    echo $full_mem_info
+    return $?
 }
 
 #------------------ CACHE-------------------------
 
 # quick info on the cache
 get_cache_info() {
-    echo p
+    free -
 }
 
 # deep cpu cache details
 get_ext_cache_info() {
-    return 0get_full_ram_info
+    return 0
 }
 
 # ---------------- processes --------------------------
