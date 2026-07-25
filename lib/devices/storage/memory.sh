@@ -26,7 +26,7 @@ get_full_ram_info() {
     )"
 
     run_privileged dmidecode -t memory | sed -E -n -f "$FEATURE_DIR/full_ram.sed" |
-    awk 'NR%8==1 {print "----- device" ++n " ----"} 1'
+    awk 'NR % 8== 1 {print "----- Device" ++n " -----"} { print }'
 
     return $?
 }
