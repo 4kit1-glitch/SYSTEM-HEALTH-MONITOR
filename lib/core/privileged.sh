@@ -2,8 +2,6 @@
 
 # script performs a wrapper to sudo
 
-# the is_privileged var works with 1 or 0 -- 0 for no 1-255 for yes
-declare -i is_privileged=0
 
 # gives a process super user privileges
 run_privileged() {
@@ -14,17 +12,22 @@ run_privileged() {
             sudo "$@"
             return $?
         else 
-            printf "permission denied -- process aborted" >&2
+            printf "permission denied -- process aborted\n" >&2
             return 1
         fi
-    elif
+    else
         sudo "$@"
         return $?
+    
     fi
+    clear
 }
 
 # remove sudo privileges
 kill_sudo() {
-    [[ $EUID -eq 0 ]] && sudo -k
+    if sudo -n true 2> /dev/null; then
+        sudo -k
+        clear
+    fi
     return $?
 }
