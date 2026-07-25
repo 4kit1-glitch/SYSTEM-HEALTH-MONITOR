@@ -8,19 +8,16 @@ declare -i is_privileged=0
 # gives a process super user privileges
 run_privileged() {
     # control user decision
-    if sudo -n true 2> /dev/null; then 
+    if ! sudo -n true 2> /dev/null; then 
         read -rp "Process requires super user privileges: proceed with sudo? [y/n]: " response
-
         if [[ $response =~ ^[Yy]$ ]]; then
             sudo "$@"
-            is_privileged=1
             return $?
         else 
             printf "permission denied -- process aborted" >&2
-            is_privileged=0
             return 1
         fi
-    elif [[ ($is_privileged == 0) ]]; then
+    elif
         sudo "$@"
         return $?
     fi
