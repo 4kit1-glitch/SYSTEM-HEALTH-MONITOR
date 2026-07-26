@@ -47,6 +47,14 @@ get_ext_cache_info() {
 
 # ---------------- processes --------------------------
 generate_memory_summary() {
+    local -ri TOTAL_MEM_DEVICES="$(
+        run_privileged dmidecode -t memory | 
+        grep -Ei "Number of devices" | awk '{ print $4}'
+    )"
+
+    printf "Total number of memory devices %d\n" "$TOTAL_MEM_DEVICES"
+    get_short_ram_info
+    get_short_cache_info
     
-    return 0
+    return $?
 }
