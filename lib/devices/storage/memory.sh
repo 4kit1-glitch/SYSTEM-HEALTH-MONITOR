@@ -26,7 +26,7 @@ get_full_ram_info() {
     )"
 
     run_privileged dmidecode -t memory | sed -E -n -f "$FEATURE_DIR/full_ram.sed" |
-    awk 'NR % 8== 1 {print "----- Device" ++n " -----"} { print }'
+    awk 'BEGIN {printf "memory devices found \n"} NR % 8== 1 {print "----- Device" ++n " -----"} { print }'
 
     return $?
 }
@@ -34,8 +34,11 @@ get_full_ram_info() {
 #------------------ CACHE-------------------------
 
 # quick info on the cache
-get_cache_info() {
-    free -
+get_short_cache_info() {
+    short_cache_info="$(
+        free -h | grep -Ei "Mem" | awk '{ printf "cache memory: %s\n", $6 }' | sed  s/Gi/Gb/
+    )"
+    printf "%s\n" "$short_cache_info"
 }
 
 # deep cpu cache details
