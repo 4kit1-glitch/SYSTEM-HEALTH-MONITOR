@@ -43,7 +43,10 @@ get_short_cache_info() {
 
 # deep cpu cache details
 get_ext_cache_info() {
-    return 0
+
+    printf "%s\ncpu cache info\n%s\n" "$(get_short_cache_info)" \
+    "$(lscpu | sed -E -n '/^L[[:digit:]]i?d?/p')"
+    return $?
 }
 
 # ---------------- processes --------------------------
