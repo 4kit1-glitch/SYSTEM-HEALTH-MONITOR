@@ -2,11 +2,11 @@
 
 
 #---- vars ----------
-declare -r disk_num="$(lsblk -d -o name,size,model | sed /^NAME/d | wc -l)"
+declare -r disk_num="$(lsblk -d -o name,size,model | sed /^NAME/d | grep -v zram | wc -l)"
 
 # ------ getters -----------
 get_storage_info() {
-    lsblk -d -o name,size,model
+    lsblk -d -o name,size,model | grep -v zram
 }
 get_ext_storage_info() {
     lsblk
@@ -19,5 +19,5 @@ get_storage_summary() {
 }
 
 disk_type_check() {
-    echo pass
+    lsblk -d -o name,rota | awk 
 }
