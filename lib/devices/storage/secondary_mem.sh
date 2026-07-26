@@ -13,9 +13,11 @@ get_ext_storage_info() {
 }
 
 #---------- OVERALL ----------------------------
-get_memory_summary() {
-    echo p
+get_storage_summary() {
+    printf "Number of drives: %d\n" "$disk_num"
+    get_storage_info
 }
 
 disk_type_check() {
+    echo pass
 }
