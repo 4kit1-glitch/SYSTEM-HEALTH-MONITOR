@@ -20,10 +20,6 @@ get_short_ram_info() {
 # full details about ram
 get_full_ram_info() {
     local -r PARAMETERS=8
-    local -ri TOTAL_MEM_DEVICES="$(
-        run_privileged dmidecode -t memory | 
-        grep -Ei "Number of devices" | awk '{ print $4}'
-    )"
 
     run_privileged dmidecode -t memory | sed -E -n -f "$FEATURE_DIR/full_ram.sed" |
     awk 'BEGIN {printf "memory devices found \n"} NR % 8== 1 {print "----- Device" ++n " -----"} { print }'
@@ -51,5 +47,6 @@ get_ext_cache_info() {
 
 # ---------------- processes --------------------------
 generate_memory_summary() {
+    
     return 0
 }
