@@ -19,5 +19,5 @@ get_storage_summary() {
 }
 
 disk_type_check() {
-    lsblk -d -o name,rota | awk 
+    lsblk -d -o name,rota | grep -v "zram" |awk '{print}$2==0{print "SSD"} $2==1{print "HDD"}'
 }
