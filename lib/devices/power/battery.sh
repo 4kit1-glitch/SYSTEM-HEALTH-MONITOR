@@ -29,4 +29,5 @@ get_battery_info(){
         else 
             printf "files missing"
             return 1
+        fi
 }
