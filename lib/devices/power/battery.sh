@@ -14,13 +14,13 @@ get_battery_info(){
     printf "Power devices:/n"
     printf "ac source num: %d\nnumber of batteries: %d" "$ac_count" "$battery_count"
 
-    for device in "$POWER_SUPPLY_DIR"; do
+    for device in "$POWER_SUPPLY_DIR/*"; do
         name=$(basename "$device")
         type=%(cat "$dev/type" 2> /dev/null)
         printf "%s : %s" "$name" "$type"
 
-        if [[ $type -eq "Baterry"]]; then
+        if [[ $type == "Baterry"]]; then
             printf "Capacity: %s\%" "$(cat "$device/capacity")"
             printf "Status: %s\%" "$(cat $device/status)"
-        fi
+        elif [[$type ==]]
 }
