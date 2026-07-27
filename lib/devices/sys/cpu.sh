@@ -2,6 +2,9 @@
 
 
 # -------- vars --------------
+
+
+#------------ Getters --------------
 get_short_cpu_info() {
     if lscpu &> /dev/null; then
         lscpu | grep -E 'Model name|Socket|CPU\(s\)|Thread|Core|NUMA node\(s\)' | 
@@ -13,7 +16,7 @@ get_short_cpu_info() {
     fi
 }
 
-get_ext_cpu_info() {
+get_extended_cpu_info() {
     
     local -ri total_cpus=$(lscpu | grep -E "^CPU\(s\):" | awk '{print $2}')
     echo "Total CPUs: $total_cpus"
