@@ -21,6 +21,7 @@ get_battery_info(){
 
         if [[ $type == "Baterry"]]; then
             printf "Capacity: %s\%" "$(cat "$device/capacity")"
-            printf "Status: %s\%" "$(cat $device/status)"
-        elif [[$type ==]]
+            printf "Status: %s\%" "$(cat "$device/status")"
+        elif [[$type == "Mains"]]; then
+            printf "status: %s\%" "$(cat "$device/online")"
 }
