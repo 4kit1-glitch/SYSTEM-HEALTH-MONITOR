@@ -16,12 +16,17 @@ get_battery_info(){
 
     for device in "$POWER_SUPPLY_DIR/*"; do
         name=$(basename "$device")
-        type=%(cat "$dev/type" 2> /dev/null)
+        type=$(cat "$dev/type" 2> /dev/null)
         printf "%s : %s" "$name" "$type"
 
         if [[ $type == "Baterry"]]; then
             printf "Capacity: %s\%" "$(cat "$device/capacity")"
             printf "Status: %s\%" "$(cat "$device/status")"
+            return 0
         elif [[$type == "Mains"]]; then
             printf "status: %s\%" "$(cat "$device/online")"
+            return 0
+        else 
+            printf "files missing"
+            return 1
 }
