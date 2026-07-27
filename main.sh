@@ -1,4 +1,4 @@
-#!/bin/env bash
+#!/usr/bin/env bash
 
 # system health monitor
 
@@ -26,5 +26,3 @@ for dir in $(ls "$DEVICE_DIR"); do
         source "$DEVICE_DIR/$dir/$script"
     done
 done
-
-get_full_ram_info
