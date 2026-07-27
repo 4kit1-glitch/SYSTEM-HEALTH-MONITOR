@@ -19,10 +19,8 @@ get_short_ram_info() {
 
 # full details about ram
 get_full_ram_info() {
-    local -r PARAMETERS=8
-
     run_privileged dmidecode -t memory | sed -E -n -f "$FEATURE_DIR/full_ram.sed" |
-    awk 'BEGIN {printf "memory devices found \n"} NR % 8== 1 {print "----- Device" ++n " -----"} { print }'
+    awk 'BEGIN {PARAMETERS=8; printf "memory devices found \n"} NR % PARAMETERS == 1 {print "----- Device" ++n " -----"} { print }'
 
     return $?
 }
