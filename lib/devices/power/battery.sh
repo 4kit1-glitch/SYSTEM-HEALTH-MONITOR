@@ -19,11 +19,11 @@ get_battery_info(){
         type=$(cat "$dev/type" 2> /dev/null)
         printf "%s : %s" "$name" "$type"
 
-        if [[ $type == "Baterry"]]; then
+        if [[ $type == "Baterry" ]]; then
             printf "Capacity: %s\%" "$(cat "$device/capacity")"
             printf "Status: %s\%" "$(cat "$device/status")"
             return 0
-        elif [[$type == "Mains"]]; then
+        elif [[ $type == "Mains" ]]; then
             printf "status: %s\%" "$(cat "$device/online")"
             return 0
         else 
