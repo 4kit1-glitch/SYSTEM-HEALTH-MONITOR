@@ -23,8 +23,15 @@ get_battery_info(){
             printf "Status: %s\%" "$(cat "$device/status")"
             return 0
         elif [[ $type == "Mains" ]]; then   # show that source is alternating current
-            if [[ ]]
-            printf "status: %s" "$(cat "$POWER_SUPPLY_DIR/$device/online")"
+            printf "status: "
+            case $(cat "$POWER_SUPPLY_DIR/$device/online") in
+                1)
+                    printf "online\n"
+                    ;;
+                *)
+                    printf "offline\n"
+                ;;
+            esac
             return 0
         else 
             printf "files missing"
