@@ -24,5 +24,5 @@ get_missing_deps() {
             missing_deps+=("$dep")
         fi
     done
-    [[${#missing_deps} -eq 0 ]] && return 0 || return 1
+    [[${#missing_deps[@]} -eq 0 ]] && return 0 || return 1
 }
