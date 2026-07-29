@@ -18,7 +18,7 @@ get_battery_info(){
         name="$(basename $device)"
         type="$(cat "$POWER_SUPPLY_DIR/$device/type")"
         echo $type
-        if [[ $type == "Baterry" ]]; then   # this has not been
+        if [[ $type == "Battery" ]]; then   # this has not been
             printf "Capacity: %s\%" "$(cat "$POWER_SUPPLY_DIR/$device/capacity")"
             printf "Status: %s\%" "$(cat "$POWER_SUPPLY_DIR/$device/status")"
             return 0
@@ -39,5 +39,3 @@ get_battery_info(){
         fi
     done
 }
-
-get_battery_info
