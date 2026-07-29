@@ -19,8 +19,8 @@ get_battery_info(){
         type="$(cat "$POWER_SUPPLY_DIR/$device/type")"
         echo $type
         if [[ $type == "Baterry" ]]; then   # this has not been
-            printf "Capacity: %s\%" "$(cat "$device/capacity")"
-            printf "Status: %s\%" "$(cat "$device/status")"
+            printf "Capacity: %s\%" "$(cat "$POWER_SUPPLY_DIR/$device/capacity")"
+            printf "Status: %s\%" "$(cat "$POWER_SUPPLY_DIR/$device/status")"
             return 0
         elif [[ $type == "Mains" ]]; then   # show that source is alternating current
             printf "status: "
