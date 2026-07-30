@@ -10,7 +10,7 @@ declare -r  required_deps=(
     "sed" "awk" "grep" "wc" "free"
     "dmidecode" "lscpu" "lsblk" "cat"
     "ls" "cd" "pwd" "dirname" "pactl"
-    "aplay" "upower"
+    "aplay" "upower" "df"
 )
 required_count=${#required_deps[@]}
 
