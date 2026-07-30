@@ -24,6 +24,7 @@ get_pkg_manager() {
 }
 
 install_missing_deps() {
+    get_missing_deps
     printf "installing missing dependencies\n"
     printf "using package manager: $os_pkg_manager\n"
     
@@ -47,4 +48,17 @@ install_missing_deps() {
                 exit 1 ;;
         esac
     done
+}
+
+confirm_installation() {
+    printf "checking if missing dependencies are installed\n"
+    get_missing_deps
+    if [[ ${#missing_deps[@]} -eq 0 ]]; then
+        printf "all dependencies are installed\n"
+        return 0
+    else
+        printf "some dependencies are still missing: ${missing_deps[*]}\n" >&2
+        printf "please install missing dependencies manually\n" >&2
+        exit 1
+    fi
 }
