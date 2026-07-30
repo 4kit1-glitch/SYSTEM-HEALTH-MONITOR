@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+
+# the programs used are presence are already verified in check_deps.sh
 #------------ vars ------------------------
 declare -r output_count=$(pactl list sinks short | wc -l)
 declare -r input_count=$(pactl list sources short | wc -l)
