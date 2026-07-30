@@ -4,8 +4,7 @@
 # script runs from main.sh so running from here will cause a path failure
 
 declare -r PACKAGE_MANAGERS=(
-    "apt" "dnf" "yum" "rpm"
-    "pacman" "zypper" "emerge"
+    "apt" "dnf" "yum" "pacman" "zypper" "emerge"
     "apk" "nix" "snap" "flatpak"
 )
 
@@ -26,7 +25,14 @@ get_pkg_manager() {
 
 install_missing_deps() {
     for dep in "${missing_deps[@]}";
-        $os_pkg_manager install $dep
+        case $os_pkg_manager in
+            "apt") run_privileged apt install $dep;;
+            "dnf") run_privileged dnf install $dep;;
+            "yum") # to be filled;;
+            "rpm") # to be filled;;
+            "yum") # to be filled;;
+            *) echo package not handled   ;;
+
 
 
 }
