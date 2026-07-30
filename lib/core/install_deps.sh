@@ -3,9 +3,9 @@
 # script does procedues to install missing dependencies
 # script runs from main.sh so running from here will cause a path failure
 
+# to be modified to support more package managers in future
 declare -r PACKAGE_MANAGERS=(
     "apt" "dnf" "pacman" "zypper" "emerge"
-    "apk" "nix"
 )
 
 # stores info of main package manager
@@ -34,13 +34,13 @@ install_missing_deps() {
         printf "please install missing dependencies manually\n" >&2
         exit 0
     fi
-    for dep in "${missing_deps[@]}";
+    for dep in "${missing_deps[@]}"; do
         case $os_pkg_manager in
-            "apt") run_privileged apt install $dep ;;
-            "dnf") run_privileged dnf install $dep ;;
-            "pacman") run_privileged pacman install $dep ;;
-            "zypper") run_privileged zypper install $dep ;;
-            "emerge") run_privileged emerge $dep ;;
+            "apt") run_privileged apt install -y $dep ;;
+            "dnf") run_privileged dnf install -y $dep ;;
+            "pacman") run_privileged pacman -S --noconfirm $dep ;;
+            "zypper") run_privileged zypper install -y $dep ;;
+            "emerge") run_privileged emerge --ask $dep ;;
             *) 
                 printf "unknown package manager aborting...../n" >&2
                 printf "pls add package manager to shm open source project/n" >&2
