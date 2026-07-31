@@ -13,15 +13,18 @@ readonly version=0.0.1
 
 sys_locale=${LANG:-C}
 
-# at the moment config files will be stored in shm folder fofr testing purposes
+# at the moment config files will be stored in shm folder for testing purposes
 
-
+export SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+XDG_CONFIG_HOME=${XDG_CONFIG_HOME:-${SCRIPT_DIR}/.config}
+PATH=$PATH:/usr/xpg4/bin:/usr/sbin:/sbin:/usr/etc:/usr/libexec
+shopt -s nocasematch
 
 set -euo pipefail
 
 
 #----------------------- GLOBAL VARS----------------------------
-export SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
 
 
 export CORE_DIR="$SCRIPT_DIR/lib/core"
