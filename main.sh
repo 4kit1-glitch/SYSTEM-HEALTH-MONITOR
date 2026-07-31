@@ -1,6 +1,21 @@
 #!/usr/bin/env bash
+# vim: noai:ts=4:sw=4:expandtab
+# 
+# 
+#
+# Syskit: A system health monitor built in bash version 5.3+
+# https://github.com/4kit1-glitch/syskit
+#
+#
 
-# system health monitor
+readonly version=0.0.1
+
+
+sys_locale=${LANG:-C}
+
+# at the moment config files will be stored in shm folder fofr testing purposes
+
+
 
 set -euo pipefail
 
