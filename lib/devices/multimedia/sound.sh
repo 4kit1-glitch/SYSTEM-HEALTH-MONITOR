@@ -7,7 +7,7 @@ declare -ri output_count=$(pactl list sinks short | wc -l)
 declare -ri input_count=$(pactl list sources short | wc -l)
 declare -ri bluetooth_count=$(pactl list sinks short | grep "bluez" | wc -l)
 declare -r active_device="$(pactl list sinks short  | grep -Ei "running" |
- awk '{printf "%s is active\n", $2} END{if( NR == 0) {printf "No audio device active\n"}')"
+ awk '{printf "%s is active\n", $2} END{if(NR==0) printf "No audio device active\n"}')"
 
 #---------------- Getters   -----------------
 
@@ -37,5 +37,4 @@ get_audio_info_summary() {
     printf "input devices connected: %d\n" "$input_count"
     printf "bluetooth divices: %d\n" "$bluetooth_count"
     printf "active device: %s\n" "$active_device" 
-    printf "volume: "
 }
