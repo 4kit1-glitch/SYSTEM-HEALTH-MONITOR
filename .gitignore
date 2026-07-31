@@ -8,6 +8,7 @@
 
 # system files
 .sys
+.conf
 
 # vars
 .env
@@ -18,3 +19,4 @@
 /var
 /system
 /tests
+/.config
