@@ -29,13 +29,13 @@ export FEATURE_DIR="$SCRIPT_DIR/features"
 # ----------------------- source scripts ---------------------
 
 # source core scripts
-for script in $CORE_DIR/*; do
+for script in $CORE_DIR/*.sh; do
     source $script
 done
 
 # source device scripts
-for dir in $(ls "$DEVICE_DIR"); do 
-    for script in $( ls "$DEVICE_DIR/$dir"); do
-        source "$DEVICE_DIR/$dir/$script"
+for dir in $DEVICE_DIR/*; do 
+    for script in $dir/*.sh; do
+        source $script
     done
 done
