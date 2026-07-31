@@ -13,6 +13,10 @@ readonly version=0.0.1
 
 sys_locale=${LANG:-C}
 
+# Speed up script by not using unicode.
+LC_ALL=C
+LANG=C
+
 # at the moment config files will be stored in shm folder for testing purposes
 
 export SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
@@ -33,6 +37,8 @@ for script in $CORE_DIR/*.sh; do
     source $script
 done
 
+# checking program dependencies
+# 
 # source device scripts
 for dir in $DEVICE_DIR/*; do 
     for script in $dir/*.sh; do
