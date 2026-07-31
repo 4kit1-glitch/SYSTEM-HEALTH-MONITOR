@@ -22,11 +22,6 @@ shopt -s nocasematch
 
 set -euo pipefail
 
-
-#----------------------- GLOBAL VARS----------------------------
-
-
-
 export CORE_DIR="$SCRIPT_DIR/lib/core"
 export DEVICE_DIR="$SCRIPT_DIR/lib/devices"
 export FEATURE_DIR="$SCRIPT_DIR/features"
@@ -34,8 +29,8 @@ export FEATURE_DIR="$SCRIPT_DIR/features"
 # ----------------------- source scripts ---------------------
 
 # source core scripts
-for script in $( ls "$CORE_DIR"); do
-    source "$CORE_DIR/$script"
+for script in $CORE_DIR/*; do
+    echo $script
 done
 
 # source device scripts
