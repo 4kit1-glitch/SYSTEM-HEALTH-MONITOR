@@ -30,7 +30,7 @@ export FEATURE_DIR="$SCRIPT_DIR/features"
 
 # source core scripts
 for script in $CORE_DIR/*; do
-    echo $script
+    source $script
 done
 
 # source device scripts
