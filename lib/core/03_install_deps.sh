@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # vim: noai:ts=4:sw=4:expandtab
 # shellcheck source=/dev/null
-# shellcheck disable=2034
+# shellcheck disable=2034,2154
 # script does procedues to install missing dependencies
 # script runs from main.sh so running from here will cause a path failure
 
@@ -27,8 +27,8 @@ get_pkg_manager() {
 
 # install missing dependencies
 install_missing_deps() {
-    get_pkg_manager
     get_missing_deps
+    get_pkg_manager
     printf "installing missing dependencies\n"
     printf "using package manager: %s\n" "$os_pkg_manager"
     
@@ -37,7 +37,7 @@ install_missing_deps() {
         printf "installation cancelled by user\n"
         printf "program wont run without :%s\n" "${missing_deps[*]}" >&2
         printf "please install missing dependencies manually\n" >&2
-        exit 0
+        exit 1
     fi
     for dep in "${missing_deps[@]}"; do
         case $os_pkg_manager in
