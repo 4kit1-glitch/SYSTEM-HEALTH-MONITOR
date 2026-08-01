@@ -6,9 +6,6 @@
 # script runs from main.sh so running from here will cause a path failure
 
 # to be modified to support more package managers in future
-
-source /home/kit/Desktop/SHM/lib/core/01_check_deps.sh
-source /home/kit/Desktop/SHM/lib/core/privileged.sh
 declare -r PACKAGE_MANAGERS=(
     "apt" "dnf" "pacman" "zypper" "emerge"
 )
