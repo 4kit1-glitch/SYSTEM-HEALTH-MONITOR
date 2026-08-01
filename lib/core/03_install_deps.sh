@@ -66,4 +66,3 @@ confirm_installation() {
         exit 1
     fi
 }
-install_missing_deps
