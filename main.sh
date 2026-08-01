@@ -8,6 +8,7 @@
 #
 #
 
+# Flag:     --version
 readonly version=0.0.1
 
 
@@ -38,12 +39,12 @@ for script in "$CORE_DIR"/*.sh; do
 done
 
 # checking program dependencies
-
+install_missing_deps
 
 
 # source device scripts
-for dir in $DEVICE_DIR/*; do 
-    for script in $dir/*.sh; do
-        source $script
+for dir in "$DEVICE_DIR"/*; do 
+    for script in "$dir"/*.sh; do
+        source "$script"
     done
 done
