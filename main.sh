@@ -35,14 +35,15 @@ export FEATURE_DIR="$SCRIPT_DIR/features"
 
 # source core scripts
 for script in "$CORE_DIR"/*.sh; do
-    echo "$script"
+    source "$script"
 done
 
 # checking program dependencies
 
+
 # source device scripts
-for dir in $DEVICE_DIR/*; do 
-    for script in $dir/*.sh; do
-        source $script
+for dir in "$DEVICE_DIR"/*; do 
+    for script in "$dir"/*.sh; do
+        source "$script"
     done
 done
