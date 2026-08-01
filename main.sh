@@ -33,8 +33,8 @@ export FEATURE_DIR="$SCRIPT_DIR/features"
 # ----------------------- source scripts ---------------------
 
 # source core scripts
-for script in $CORE_DIR/*.sh; do
-    source $script
+for script in "$CORE_DIR"/*.sh; do
+    source "$script"
 done
 
 # checking program dependencies
