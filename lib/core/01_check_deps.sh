@@ -12,7 +12,6 @@ declare -r  required_deps=(
     "ls" "cd" "pwd" "dirname" "pactl"
     "aplay" "upower" "df"
 )
-required_count="${#required_deps[@]}"
 
 declare -a missing_deps     # variable stores the missing dependencies
 
