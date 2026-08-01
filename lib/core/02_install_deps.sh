@@ -24,6 +24,7 @@ get_pkg_manager() {
 }
 
 install_missing_deps() {
+    get_pkg_manger
     get_missing_deps
     printf "installing missing dependencies\n"
     printf "using package manager: $os_pkg_manager\n"
