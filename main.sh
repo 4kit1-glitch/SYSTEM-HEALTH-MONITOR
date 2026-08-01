@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # vim: noai:ts=4:sw=4:expandtab
-# 
-# 
+# shellcheck source=/dev/null
+# shellcheck disable=2034
 #
 # Syskit: A system health monitor built in bash version 5.3+
 # https://github.com/4kit1-glitch/syskit
@@ -38,7 +38,9 @@ for script in $CORE_DIR/*.sh; do
 done
 
 # checking program dependencies
-# 
+
+
+
 # source device scripts
 for dir in $DEVICE_DIR/*; do 
     for script in $dir/*.sh; do

@@ -12,7 +12,7 @@ declare -r  required_deps=(
     "ls" "cd" "pwd" "dirname" "pactl"
     "aplay" "upower" "df"
 )
-required_count=${#required_deps[@]}
+required_count="${#required_deps[@]}"
 
 declare -a missing_deps     # variable stores the missing dependencies
 
@@ -24,5 +24,5 @@ get_missing_deps() {
             missing_deps+=("$dep")
         fi
     done
-    [[${#missing_deps[@]} -eq 0 ]] && return 0 || return 1
+    [[ ${#missing_deps[@]} -eq 0 ]] && return 0 || return 1
 }

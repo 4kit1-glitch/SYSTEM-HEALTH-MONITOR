@@ -4,7 +4,7 @@
 # camera
 # usb -connected
 # remote devices
-#
+#get_additional_device_info
 #
 #
 #

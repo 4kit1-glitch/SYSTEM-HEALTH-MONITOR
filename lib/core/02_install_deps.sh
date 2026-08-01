@@ -12,7 +12,7 @@ declare -r PACKAGE_MANAGERS=(
 os_pkg_manager=""
 
 get_pkg_manager() {
-    for pkg in ${PACKAGE_MANAGERS[@]}; do 
+    for pkg in "${PACKAGE_MANAGERS[@]}"; do 
         if command -v "$pkg" &> /dev/null; then
             os_pkg_manager="$pkg"
             return 0
@@ -24,25 +24,25 @@ get_pkg_manager() {
 }
 
 install_missing_deps() {
-    get_pkg_manger
+    get_pkg_manager
     get_missing_deps
     printf "installing missing dependencies\n"
-    printf "using package manager: $os_pkg_manager\n"
+    printf "using package manager: %s\n" "$os_pkg_manager"
     
     read -rp "do you want to install missing dependencies? (y/n): " answer
     if [[ ! $answer =~ ^[Yy]$ ]]; then
         printf "installation cancelled by user\n"
-        printf "program wont run without :${missing_deps[*]}\n" >&2
+        printf "program wont run without :%s\n" "${missing_deps[*]}" >&2
         printf "please install missing dependencies manually\n" >&2
         exit 0
     fi
     for dep in "${missing_deps[@]}"; do
         case $os_pkg_manager in
-            "apt") run_privileged apt install -y $dep ;;
-            "dnf") run_privileged dnf install -y $dep ;;
-            "pacman") run_privileged pacman -S --noconfirm $dep ;;
-            "zypper") run_privileged zypper install -y $dep ;;
-            "emerge") run_privileged emerge --ask $dep ;;
+            "apt") run_privileged apt install -y "$dep" ;;
+            "dnf") run_privileged dnf install -y "$dep" ;;
+            "pacman") run_privileged pacman -S --noconfirm "$dep" ;;
+            "zypper") run_privileged zypper install -y "$dep" ;;
+            "emerge") run_privileged emerge --ask "$dep" ;;
             *) 
                 printf "unknown package manager aborting...../n" >&2
                 printf "pls add package manager to shm open source project/n" >&2
@@ -63,3 +63,5 @@ confirm_installation() {
         exit 1
     fi
 }
+get_pkg_manager
+echo $os_pkg_manager
