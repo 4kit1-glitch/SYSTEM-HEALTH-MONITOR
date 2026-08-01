@@ -1,4 +1,7 @@
 #!/usr/bin/env bash
+# vim: noai:ts=4:sw=4:expandtab
+# shellcheck source=/dev/null
+# shellcheck disable=2034
 
 # script performs a wrapper to sudo
 
@@ -20,7 +23,6 @@ run_privileged() {
         return $?
     
     fi
-    clear
 }
 
 # remove sudo privileges

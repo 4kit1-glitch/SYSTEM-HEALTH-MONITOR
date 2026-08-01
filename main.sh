@@ -1,14 +1,13 @@
 #!/usr/bin/env bash
 # vim: noai:ts=4:sw=4:expandtab
 # shellcheck source=/dev/null
-# shellcheck disable=2034
+# shellcheck disable=2034,2155
 #
 # Syskit: A system health monitor built in bash version 5.3+
 # https://github.com/4kit1-glitch/syskit
 #
 #
 
-# Flag:     --version
 readonly version=0.0.1
 
 
@@ -23,6 +22,7 @@ LANG=C
 export SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 XDG_CONFIG_HOME=${XDG_CONFIG_HOME:-${SCRIPT_DIR}/.config}
 PATH=$PATH:/usr/xpg4/bin:/usr/sbin:/sbin:/usr/etc:/usr/libexec
+
 shopt -s nocasematch
 
 set -euo pipefail
@@ -35,16 +35,14 @@ export FEATURE_DIR="$SCRIPT_DIR/features"
 
 # source core scripts
 for script in "$CORE_DIR"/*.sh; do
-    source "$script"
+    echo "$script"
 done
 
 # checking program dependencies
-install_missing_deps
-
 
 # source device scripts
-for dir in "$DEVICE_DIR"/*; do 
-    for script in "$dir"/*.sh; do
-        source "$script"
+for dir in $DEVICE_DIR/*; do 
+    for script in $dir/*.sh; do
+        source $script
     done
 done

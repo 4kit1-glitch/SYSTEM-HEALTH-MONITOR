@@ -1,21 +1,21 @@
 #!/usr/bin/env bash
-
-# script check if program dependencies are installed
-
-
-# ---------------vars-------------------
+# vim: noai:ts=4:sw=4:expandtab
+# shellcheck source=/dev/null
+# shellcheck disable=2034
+# script check if program dependencies are installed and gets the missing ones
 
 # array variable that stores the required dependencies of the program
-declare -r  required_deps=(
+declare required_deps=(
     "sed" "awk" "grep" "wc" "free"
     "dmidecode" "lscpu" "lsblk" "cat"
     "ls" "cd" "pwd" "dirname" "pactl"
-    "aplay" "upower" "df"
+    "aplay" "upower" "df" "sldkfjsd"
 )
 
-declare -a missing_deps     # variable stores the missing dependencies
+# variable stores the missing dependencies
+declare -a missing_deps     
 
-#---------- getters -----------------
+
 get_missing_deps() {
     # function gets missing dependencies
     for dep in "${required_deps[@]}"; do
