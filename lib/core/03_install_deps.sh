@@ -49,7 +49,7 @@ install_missing_deps() {
     printf "installing missing dependencies\n"
     printf "using package manager: %s\n" "$os_pkg_manager"
     
-    read -rp "do you want to install missing dependencies? (y/n): " answer
+    read -rp "do you want to install missing dependencies? [Y/n]: " answer
     if [[ ! $answer =~ ^[Yy]$ ]]; then
         printf "installation cancelled by user\n"
         printf "program wont run without : %s\n" "${missing_deps[*]}" >&2
@@ -64,12 +64,12 @@ install_missing_deps() {
             "zypper") run_privileged zypper install -y "$dep" ;;
             "emerge") run_privileged emerge --ask "$dep" ;;
             *) 
-                printf "unknown package manager aborting...../n" >&2
-                printf "pls add package manager to shm open source project/n" >&2
+                printf "unknown package manager aborting.....\n" >&2
+                printf "pls add package manager to shm open source project\n" >&2
                 exit 2 ;;
         esac
         sleep 1
         clear
     done
-    return 0
+    confirm_installation && return 0
 }
