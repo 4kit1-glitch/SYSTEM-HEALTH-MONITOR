@@ -25,21 +25,34 @@ get_pkg_manager() {
     exit 1
 }
 
+confirm_installation() {
+    printf "checking if missing dependencies are installed\n"
+    get_missing_deps
+    if [[ ${#missing_deps[@]} -eq 0 ]]; then
+        printf "all dependencies are installed\n"
+        return 0
+    else
+        printf "some dependencies are still missing: %s\n" "${missing_deps[*]}" >&2
+        printf "please install missing dependencies manually\n" >&2
+        exit 1
+    fi
+}
+
 # install missing dependencies
 install_missing_deps() {
     if get_missing_deps; then
-        printf "all deps installed"
+        printf "all deps installed\n"
         return 0
     fi
     get_pkg_manager
-    printf "%s\n" "${missing_deps[*]}"
+    printf "missing dependencies: %s\n" "${missing_deps[*]}"
     printf "installing missing dependencies\n"
     printf "using package manager: %s\n" "$os_pkg_manager"
     
     read -rp "do you want to install missing dependencies? (y/n): " answer
     if [[ ! $answer =~ ^[Yy]$ ]]; then
         printf "installation cancelled by user\n"
-        printf "program wont run without :%s\n" "${missing_deps[*]}" >&2
+        printf "program wont run without : %s\n" "${missing_deps[*]}" >&2
         printf "please install missing dependencies manually\n" >&2
         exit 1
     fi
@@ -58,17 +71,5 @@ install_missing_deps() {
         sleep 1
         clear
     done
-}
-
-confirm_installation() {
-    printf "checking if missing dependencies are installed\n"
-    get_missing_deps
-    if [[ ${#missing_deps[@]} -eq 0 ]]; then
-        printf "all dependencies are installed\n"
-        return 0
-    else
-        printf "some dependencies are still missing: %s\n" "${missing_deps[*]}" >&2
-        printf "please install missing dependencies manually\n" >&2
-        exit 1
-    fi
+    return 0
 }
