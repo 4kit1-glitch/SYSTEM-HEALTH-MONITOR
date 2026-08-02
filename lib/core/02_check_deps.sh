@@ -5,16 +5,15 @@
 # script check if program dependencies are installed and gets the missing ones
 
 # array variable that stores the required dependencies of the program
-declare required_deps=(
+declare -r required_deps=(
     "sed" "awk" "grep" "wc" "free"
     "dmidecode" "lscpu" "lsblk" "cat"
     "ls" "cd" "pwd" "dirname" "pactl"
-    "aplay" "upower" "df" "sldkfjsd"
+    "aplay" "upower" "df"
 )
 
 # variable stores the missing dependencies
-declare -a missing_deps     
-
+declare -a missing_deps=()
 
 get_missing_deps() {
     # function gets missing dependencies

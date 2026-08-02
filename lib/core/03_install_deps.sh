@@ -27,8 +27,12 @@ get_pkg_manager() {
 
 # install missing dependencies
 install_missing_deps() {
-    get_missing_deps
+    if get_missing_deps; then
+        printf "all deps installed"
+        return 0
+    fi
     get_pkg_manager
+    printf "%s\n" "${missing_deps[*]}"
     printf "installing missing dependencies\n"
     printf "using package manager: %s\n" "$os_pkg_manager"
     
@@ -51,6 +55,8 @@ install_missing_deps() {
                 printf "pls add package manager to shm open source project/n" >&2
                 exit 2 ;;
         esac
+        sleep 1
+        clear
     done
 }
 
