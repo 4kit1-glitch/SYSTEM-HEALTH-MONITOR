@@ -6,9 +6,7 @@
 # script performs a wrapper to sudo
 # return err codes are assigned in 00_error.sh
 
-run_with_sudo() {
-    sudo "$@"
-}
+run_with_sudo() { sudo "$@"; }
 
 is_root() {
     [[ $EUID -eq 0 ]] && {
@@ -43,13 +41,13 @@ run_privileged() {
     elif ! is_sudo_active; then 
         read -rp "Process requires super user privileges: proceed with sudo? [y/n]: " response
         [[ $response =~ ^[Yy]$ ]] && {
-            sudo "$@"
+            run_with_sudo "$@"
             return "$ERR_SUCCESS"
         }
         printf "permission denied -- process aborted\n" >&2
         return "$ERR_FAILURE"
     else
-        sudo "$@"
+        run_with_sudo "$@"
         return "$ERR_SUCCESS"
 
     fi
