@@ -5,6 +5,7 @@
 #
 # script performs a wrapper to sudo
 # return err codes are assigned in 00_error.sh
+# if syskit is run as cron then user must use sudo crontab -e not handling NOPASSWD for secuirity reasons
 
 run_with_sudo() { sudo "$@"; }
 
