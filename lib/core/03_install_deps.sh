@@ -2,8 +2,13 @@
 # vim: noai:ts=4:sw=4:expandtab
 # shellcheck source=/dev/null
 # shellcheck disable=2034,2154
+#
 # script does procedues to install missing dependencies
 # script runs from main.sh so running from here will cause a path failure
+#
+# exit codes specifications 
+# 1 - general falure
+# 2 - invalid package manager
 
 # to be modified to support more package managers in future
 declare -r PACKAGE_MANAGERS=(
@@ -68,8 +73,8 @@ install_missing_deps() {
                 printf "pls add package manager to shm open source project\n" >&2
                 exit 2 ;;
         esac
-        sleep 1
-        clear
     done
+    sleep 1
+    clear
     confirm_installation && return 0
 }

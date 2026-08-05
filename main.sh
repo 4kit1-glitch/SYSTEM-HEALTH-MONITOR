@@ -45,9 +45,8 @@ for dir in "$DEVICE_DIR"/*; do
 done
 
 # check and install missing program dependencies
-install_missing_deps
-confirm_installation
 
 main() {
-    echo pass
+    install_missing_deps
+    confirm_installation
 }
