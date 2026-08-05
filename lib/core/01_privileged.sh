@@ -47,16 +47,17 @@ run_privileged() {
         return "$ERR_FALURE"
     else
         sudo "$@"
-        return $?
-    
+        return "$ERR_SUCCESS"
+
     fi
 }
 
 # remove sudo privileges
 kill_sudo() {
-    if sudo -n true 2> /dev/null; then
+    is_sudo_active && {
         sudo -k
-        clear
-    fi
-    return $?
+        return "$ERR_SUCCESS"
+    }
+    printf "sudo not active !!! aborting..." >&2
+    return "$ERR_BAD_USAGE"
 }
