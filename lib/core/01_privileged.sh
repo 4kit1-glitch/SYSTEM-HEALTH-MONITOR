@@ -14,22 +14,26 @@ is_root() {
     return "$ERR_FAILURE"
 }
 
-sudo_check() {
+is_sudo_available() {
     command -v sudo > /dev/null 2>&1 && {
         return "$ERR_SUCCESS"
     }
     return "$ERR_FAILURE"
 }
+is_sudo_active() {
+    sudo -n true > /dev/null 2>&1 && {
+        return "$ERR_SUCCESS"
+    }
+    return "$ERR_FAILURE"
+}
+
 # gives a process super user privileges
 run_privileged() {
     # check if user runs as root 
     if is_root; then  
         "$@"
         return "$ERR_SUCCESS"   # maybe later this will be modified to show the command exit code  
-    fi
-
-    # check if sudo is available
-    if ( is_root || ! sudo_check ); then
+    elif ( is_root || ! is_sudo_available ); then
         printf "sudo not available" >&2
         printf "run as root or set up sudo" >&2
         return "$ERR_NOT_FOUND"
