@@ -37,17 +37,14 @@ run_privileged() {
         printf "sudo not available" >&2
         printf "run as root or set up sudo" >&2
         return "$ERR_NOT_FOUND"
-    fi
-
-    if ! sudo -n true 2> /dev/null; then 
+    elif ! is_sudo_active; then 
         read -rp "Process requires super user privileges: proceed with sudo? [y/n]: " response
-        if [[ $response =~ ^[Yy]$ ]]; then
+        [[ $response =~ ^[Yy]$ ]] && {
             sudo "$@"
-            return $?
-        else 
-            printf "permission denied -- process aborted\n" >&2
-            return 1
-        fi
+            return "$ERR_SUCCESS"
+        }
+        printf "permission denied -- process aborted\n" >&2
+        return "$ERR_FALURE"
     else
         sudo "$@"
         return $?
