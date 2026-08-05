@@ -2,13 +2,39 @@
 # vim: noai:ts=4:sw=4:expandtab
 # shellcheck source=/dev/null
 # shellcheck disable=2034
-
+#
 # script performs a wrapper to sudo
+# return err codes are assigned in 00_error.sh
 
 
+is_root() {
+    [[ $EUID -eq 0 ]] && {
+        return "$ERR_SUCCESS"
+    }
+    return "$ERR_FAILURE"
+}
+
+sudo_check() {
+    command -v sudo > /dev/null 2>&1 && {
+        return "$ERR_SUCCESS"
+    }
+    return "$ERR_FAILURE"
+}
 # gives a process super user privileges
 run_privileged() {
-    # control user decision
+    # check if user runs as root 
+    if is_root; then  
+        "$@"
+        return "$ERR_SUCCESS"   # maybe later this will be modified to show the command exit code  
+    fi
+
+    # check if sudo is available
+    if ( is_root || ! sudo_check ); then
+        printf "sudo not available" >&2
+        printf "run as root or set up sudo" >&2
+        return "$ERR_NOT_FOUND"
+    fi
+
     if ! sudo -n true 2> /dev/null; then 
         read -rp "Process requires super user privileges: proceed with sudo? [y/n]: " response
         if [[ $response =~ ^[Yy]$ ]]; then
