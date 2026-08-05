@@ -33,7 +33,7 @@ run_privileged() {
     if is_root; then  
         "$@"
         return "$ERR_SUCCESS"   # maybe later this will be modified to show the command exit code  
-    elif ( is_root || ! is_sudo_available ); then
+    elif ! ( is_root && ! is_sudo_available ); then
         printf "sudo not available" >&2
         printf "run as root or set up sudo" >&2
         return "$ERR_NOT_FOUND"
@@ -44,7 +44,7 @@ run_privileged() {
             return "$ERR_SUCCESS"
         }
         printf "permission denied -- process aborted\n" >&2
-        return "$ERR_FALURE"
+        return "$ERR_FAILURE"
     else
         sudo "$@"
         return "$ERR_SUCCESS"
