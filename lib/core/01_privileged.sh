@@ -34,7 +34,7 @@ run_privileged() {
     # check if user runs as root 
     if is_root; then  
         "$@"
-        return "$ERR_SUCCESS"   # maybe later this will be modified to show the command exit code  
+        return $?   # maybe later this will be modified to show the command exit code  
     elif  ( ! is_root && ! is_sudo_available ); then
         printf "sudo not available\n" >&2
         printf "run as root or set up sudo\n" >&2
@@ -43,13 +43,13 @@ run_privileged() {
         read -rp "Process requires super user privileges: proceed with sudo? [y/n]: " response
         [[ $response =~ ^[Yy]$ ]] && {
             run_with_sudo "$@"
-            return "$ERR_SUCCESS"
+            return $?
         }
         printf "permission denied -- process aborted\n" >&2
         return "$ERR_FAILURE"
     else
         run_with_sudo "$@"
-        return "$ERR_SUCCESS"
+        return $?
 
     fi
 }
