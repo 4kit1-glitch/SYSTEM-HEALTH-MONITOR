@@ -6,6 +6,9 @@
 # script performs a wrapper to sudo
 # return err codes are assigned in 00_error.sh
 
+run_with_sudo() {
+    sudo "$@"
+}
 
 is_root() {
     [[ $EUID -eq 0 ]] && {
