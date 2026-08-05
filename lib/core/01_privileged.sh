@@ -36,8 +36,8 @@ run_privileged() {
         "$@"
         return "$ERR_SUCCESS"   # maybe later this will be modified to show the command exit code  
     elif  ( ! is_root && ! is_sudo_available ); then
-        printf "sudo not available" >&2
-        printf "run as root or set up sudo" >&2
+        printf "sudo not available\n" >&2
+        printf "run as root or set up sudo\n" >&2
         return "$ERR_NOT_FOUND"
     elif ! is_sudo_active; then 
         read -rp "Process requires super user privileges: proceed with sudo? [y/n]: " response
