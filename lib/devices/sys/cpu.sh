@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-#!/usr/bin/env bash
 # vim: noai:ts=4:sw=4:expandtab
 # shellcheck source=/dev/null
 # shellcheck disable=2155
@@ -24,42 +23,41 @@ get_cpu_cores() {
     printf "%s" "$core_count"
 }
 
+## refactor code and use read to set values 
 get_cpu_usage() {
-    local interval=${1:-1}  # default 1s but might be chnged 
-    local total_time=$(cat /proc/stat | grep -iw "^cpu" | 
-    awk 'BEGIN {sum=0} 
-        {for(i=2; i<=NF; i++){sum = sum + $i} 
-        {printf "%d", sum}  }
-    ')
+    local -r interval=1
 
-    local idle_time=$(cat /proc/stat | grep -iw "^cpu" | awk '{print $4 + $5}') 
-    local working_time=$(( $total_time - $idle_time ))
+    read -r total_time1 idle_time1 < <( \
+        awk 'BEGIN {sum=0} 
+            /^cpu /{for(i=2; i<=NF; i++){sum += $i} 
+            {printf "%d %d", sum, $4+$5}  }
+            ' \
+        $CPU_USAGE_FILE)
 
-    sleep 1
+    sleep "$interval"
 
-    local total_time2=$(cat /proc/stat | grep -iw "^cpu" | 
-    awk 'BEGIN {sum=0} 
-        {for(i=2; i<=NF; i++){sum = sum + $i} 
-        {printf "%d", sum}  }
-    ')
-
-    local idle_time2=$(cat /proc/stat | grep -iw "^cpu" | awk '{print $4 + $5}') 
-    local working_time2=$(($total_time2 - $idle_time2))
-
-    working_delta=$(( $working_time2 - $working_time ))
-    total_delta=$(( $total_time2 - $total_time ))
+    read -r total_time2 idle_time2 < <( \
+        awk 'BEGIN {sum=0} 
+            /^cpu /{for(i=2; i<=NF; i++){sum += $i} 
+            {printf "%d %d", sum, $4+$5}  }
+            ' \
+        $CPU_USAGE_FILE)
     
-    local usage_percent=$(bc -q <<< "scale=2; 100 * $working_delta / $total_delta")
+    local total_delta=$(( total_time2 - total_time1 ))
+    local idle_delta=$(( idle_time2 - idle_time1 ))
+    local working_time=$(( total_delta - idle_delta ))
+    local usage=$( bc -q <<< "scale=2; 100 * $working_time / $total_delta" )
 
-    echo "$usage_percent%"
 
+    echo "usage: $usage%"
 }
 get_load_average() {
     local load="$(cat $LOAD_INFO_FILE | awk '{print $1 $2 $3}')"
     printf "%s" "$load"
 }
-get_cpu_status() {
+get_most_used_core() {
     echo pass
+
 }
 get_running_processes() {
     echo pass
