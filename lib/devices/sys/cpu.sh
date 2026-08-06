@@ -30,7 +30,7 @@ get_cpu_usage() {
     read -r total_time1 idle_time1 < <( \
         awk 'BEGIN {sum=0} 
             /^cpu /{for(i=2; i<=NF; i++){sum += $i} 
-            {printf "%d %d", sum, $4+$5}  }
+            {printf "%d %d", sum, $5+$6}  }
             ' \
         $CPU_USAGE_FILE)
 
@@ -67,4 +67,3 @@ get_total_processes() {
 get_system_uptime() {
     echo pass
 }
-
