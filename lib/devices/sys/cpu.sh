@@ -4,12 +4,16 @@
 # shellcheck source=/dev/null
 #
 
-get_cpu_model_info() {
+readonly CPU_INFO_FILE="/proc/cpuinfo"
 
+get_cpu_model_info() {
+    local model_name=$(cat $CPU_INFO_FILE | grep -i "model name" | awk -F':' '{print $2}' | head -1)
+    printf "%s" "$model_name"
 }
 
 get_cpu_cores() {
-
+    local core_count=$(cat $CPU_INFO_FILE | grep -ci "processor")
+    printf "%s" "$core_count"
 }
 get_cpu_speed() {
 
@@ -27,5 +31,5 @@ get_running_processes() {
 
 }
 get_total_processes() {
-    
+
 }
