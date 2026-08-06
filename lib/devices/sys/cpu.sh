@@ -1,31 +1,31 @@
 #!/usr/bin/env bash
+#!/usr/bin/env bash
+# vim: noai:ts=4:sw=4:expandtab
+# shellcheck source=/dev/null
+#
 
+get_cpu_model_info() {
 
-# -------- vars --------------
-
-
-#------------ Getters --------------
-get_short_cpu_info() {
-    if lscpu &> /dev/null; then
-        lscpu | grep -E 'Model name|Socket|CPU\(s\)|Thread|Core|NUMA node\(s\)' | 
-        awk -F: '{print $1 ": " $2}' | sed 's/^[ \t]*//'
-        return 0
-    else
-        echo "lscpu command not found."
-        return 1
-    fi
 }
 
-get_extended_cpu_info() {
+get_cpu_cores() {
+
+}
+get_cpu_speed() {
+
+}
+get_cpu_usage() {
+
+}
+get_load_average() {
+
+}
+get_cpu_status() {
+
+}
+get_running_processes() {
+
+}
+get_total_processes() {
     
-    local -ri total_cpus=$(lscpu | grep -E "^CPU\(s\):" | awk '{print $2}')
-    echo "Total CPUs: $total_cpus"
-    if [[ -f /proc/cpuinfo ]]; then
-        cat /proc/cpuinfo | sed -E -n -f "$FEATURE_DIR/full_cpu.sed" | 
-        awk 'BEGIN {PARAMETERS=13; printf "Full CPU Info:\ntotal CPUs: \n"} NR % PARAMETERS == 1 {print "----- CPU" ++n " -----"} { print }'
-        return 0
-    else
-        echo "/proc/cpuinfo file not found."
-        return 1
-    fi
 }
