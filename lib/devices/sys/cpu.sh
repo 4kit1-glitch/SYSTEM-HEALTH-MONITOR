@@ -39,7 +39,7 @@ get_cpu_usage() {
     read -r total_time2 idle_time2 < <( \
         awk 'BEGIN {sum=0} 
             /^cpu /{for(i=2; i<=NF; i++){sum += $i} 
-            {printf "%d %d", sum, $4+$5}  }
+            {printf "%d %d", sum, $5+$6}  }
             ' \
         $CPU_USAGE_FILE)
     
@@ -48,12 +48,11 @@ get_cpu_usage() {
     local working_time=$(( total_delta - idle_delta ))
     local usage=$( bc -q <<< "scale=2; 100 * $working_time / $total_delta" )
 
-
     echo "usage: $usage%"
 }
 get_load_average() {
     local load="$(cat $LOAD_INFO_FILE | awk '{print $1 $2 $3}')"
-    printf "%s" "$load"
+    printf "%s" "$load"get_cpu_usage
 }
 get_most_used_core() {
     echo pass
