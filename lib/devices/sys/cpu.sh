@@ -63,10 +63,9 @@ get_cores_usage() {
     for (( i=0; i<CORES; i++ )); do
         core_usages["core$i"]=0
     done
+
+    # calculate each of their usages
     
-    for core in "${!core_usages[@]}"; do 
-        echo "$core"
-    done
 
 }
 get_most_used_core() {
