@@ -20,7 +20,7 @@ get_cpu_model_info() {
 
 get_cpu_cores() {
     local core_count=$(cat $CPU_INFO_FILE | grep -ci "processor")
-    printf "%s" "$core_count"
+    printf "%d" "$core_count"
 }
 
 ## refactor code and use read to set values 
@@ -30,7 +30,7 @@ get_cpu_usage() {
     read -r total_time1 idle_time1 < <( \
         awk 'BEGIN {sum=0} 
             /^cpu /{for(i=2; i<=NF; i++){sum += $i} 
-            {printf "%d %d", sum, $5+$6}  }
+            {printf "%d %d", sum, $5+$6}  } # idle + iowait
             ' \
         $CPU_USAGE_FILE)
 
@@ -54,6 +54,21 @@ get_load_average() {
     local load="$(cat $LOAD_INFO_FILE | awk '{print $1 $2 $3}')"
     printf "%s" "$load"get_cpu_usage
 }
+
+get_cores_usage() {
+    local -r CORES=$(get_cpu_cores)
+    local -A core_usages
+
+    # first set to zero
+    for (( i=0; i<CORES; i++ )); do
+        core_usages["core$i"]=0
+    done
+    
+    for core in "${!core_usages[@]}"; do 
+        echo "$core"
+    done
+
+}
 get_most_used_core() {
     echo pass
 
@@ -67,3 +82,5 @@ get_total_processes() {
 get_system_uptime() {
     echo pass
 }
+
+get_cores_usage
