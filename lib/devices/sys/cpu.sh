@@ -41,7 +41,7 @@ calculate_usage() {
     read -r total_time1 idle_time1 < <( \
         awk -v var="$value_tc" 'BEGIN {sum=0} 
             $0 ~ var {for(i=2; i<=NF; i++){sum += $i} 
-            {printf "%d %d", sum, $5+$6}  } # idle + iowait
+            {printf "%d %d", sum, $5+$6}} # idle + iowait
             ' \
         $CPU_USAGE_FILE)
 
@@ -49,8 +49,8 @@ calculate_usage() {
 
     read -r total_time2 idle_time2 < <( \
         awk -v var="$value_tc" 'BEGIN {sum=0} 
-            /^cpu /{for(i=2; i<=NF; i++){sum += $i} 
-            {printf "%d %d", sum, $5+$6}  }
+            $0 ~ var {for(i=2; i<=NF; i++){sum += $i} 
+            {printf "%d %d", sum, $5+$6}}
             ' \
         $CPU_USAGE_FILE)
     
@@ -59,7 +59,7 @@ calculate_usage() {
     local working_time=$(( total_delta - idle_delta ))
     local usage=$( bc -q <<< "scale=2; 100 * $working_time / $total_delta" )
 
-    echo " $value_tc: $usage%"
+    printf "%d%" "$usage"
 }
 get_load_average() {
     local load="$(cat $LOAD_INFO_FILE | awk '{print $1 $2 $3}')"
@@ -93,4 +93,4 @@ get_system_uptime() {
     echo pass
 }
 
-calculate_usage "cpu0"
+calculate_usage "cpu3"
