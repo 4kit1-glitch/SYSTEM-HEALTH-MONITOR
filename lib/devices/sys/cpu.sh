@@ -24,12 +24,23 @@ get_cpu_cores() {
 }
 
 ## refactor code and use read to set values 
-get_cpu_usage() {
+calculate_usage() {
     local -r interval=1
+    local -r item_passed=$1
+    local value_tc=""
+
+    if [[ $item_passed =~ (^cpu |^CPU ) ]]; then
+        value_tc="^cpu "
+    elif [[ $item_passed =~ (^cpu[0-9]+) ]]; then 
+        value_tc="$item_passed"
+    else
+        printf "cannot calculate usage of %s not available" "$item_passed" >&2
+        return "$ERR_BAD_USAGE"
+    fi
 
     read -r total_time1 idle_time1 < <( \
-        awk 'BEGIN {sum=0} 
-            /^cpu /{for(i=2; i<=NF; i++){sum += $i} 
+        awk -v var="$value_tc" 'BEGIN {sum=0} 
+            $0 ~ var {for(i=2; i<=NF; i++){sum += $i} 
             {printf "%d %d", sum, $5+$6}  } # idle + iowait
             ' \
         $CPU_USAGE_FILE)
@@ -37,7 +48,7 @@ get_cpu_usage() {
     sleep "$interval"
 
     read -r total_time2 idle_time2 < <( \
-        awk 'BEGIN {sum=0} 
+        awk -v var="$value_tc" 'BEGIN {sum=0} 
             /^cpu /{for(i=2; i<=NF; i++){sum += $i} 
             {printf "%d %d", sum, $5+$6}  }
             ' \
@@ -48,7 +59,7 @@ get_cpu_usage() {
     local working_time=$(( total_delta - idle_delta ))
     local usage=$( bc -q <<< "scale=2; 100 * $working_time / $total_delta" )
 
-    echo "usage: $usage%"
+    echo " $value_tc: $usage%"
 }
 get_load_average() {
     local load="$(cat $LOAD_INFO_FILE | awk '{print $1 $2 $3}')"
@@ -65,7 +76,7 @@ get_cores_usage() {
     done
 
     # calculate each of their usages
-    
+
 
 }
 get_most_used_core() {
@@ -82,4 +93,4 @@ get_system_uptime() {
     echo pass
 }
 
-get_cores_usage
+calculate_usage "cpu0"
