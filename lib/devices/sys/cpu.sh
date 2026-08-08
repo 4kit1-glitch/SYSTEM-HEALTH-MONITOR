@@ -14,7 +14,7 @@ readonly CPU_USAGE_FILE="/proc/stat"
 readonly UPTIME_INFO_FILE="/proc/uptime"
 
 get_cpu_model_info() {
-    [[ -f "$CPU_INFO_FILE" ]] && {
+    [[ -f "$CPU_INFO_FILE" ]] && { \
         local model_name="$(cat $CPU_INFO_FILE | \
         grep -i "model name" | \
         awk -F':' '{print $2}' | head -1)"
@@ -34,7 +34,7 @@ calculate_usage() {
     local value_tc=""
 
     if [[ $item_passed =~ (^cpu |^CPU |^cpu) ]]; then
-        value_tc="^cpu "
+        value_tc="^cpwrite_cpu_configu "
     elif [[ $item_passed =~ (^cpu[0-9]+) ]]; then 
         value_tc="$item_passed"
     else
@@ -72,7 +72,7 @@ get_load_average() {
 
 get_cpu_usage() {
     local -r usage=$(calculate_usage "cpu")
-    echo -en "$usage" ## i know you might want to use printf but dont it doesnt work i dont know why
+    echo -en "$usage" ## i know you might want to use printf but don't it doesn't work i dont know why
 }
 
 
@@ -89,22 +89,15 @@ get_cores_usage() {
         core_usages["cpu$i"]=$(calculate_usage "cpu$i")
     done
 
+    for core in "${!core_usages[@]}"; do 
+        echo "$core=${core_usages["$core"]}"
+    done
+
 }
 
 # fix this
 get_most_least_core() {
-    # this doesnt fucking work 
-    least_used=$( \
-        awk 'BEGIN {idle = 0; max = 0} 
-        /^cpu[0-9]+/ {idle=$5+$6; if(idle >= max) max=$1;  else max=max;}
-        END {printf "%s", max}' $CPU_USAGE_FILE \
-    )
-    most_used=$( \
-        awk 'BEGIN {total = 0; max = 0} /^cpu[0-9]+/ {total=$2+$3+$4; if(total >= max) max=$1; else max=max;print total -- max} END {printf "%s", max}' /proc/stat
 
-    )
-
-}
 get_running_total() {
     # function reads processes running and total processes from loadavg
     # think its better to get them both then process at need rather than individually
@@ -136,7 +129,11 @@ write_cpu_config() {
     {
         echo "cpu_model=\"$(get_cpu_model_info)\""
         echo "cpu_cores=\"$(get_cpu_cores)\""
-        echo "cpu_usage=\"$(calculate_usage cpu)\""
+        echo "cpu_usage=\"$(get_cpu_usage)\""
+        echo "uptime=\"$(get_system_uptime)\""
+        echo "load_average=\"$(get_load_average)\""
+
     } > "$CPU_CONFIG" 
 
 }
+get_cores_usage
