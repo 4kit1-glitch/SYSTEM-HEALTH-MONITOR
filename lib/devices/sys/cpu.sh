@@ -97,6 +97,25 @@ get_cores_usage() {
 
 # fix this
 get_most_least_core() {
+    # this doesnt fucking work 
+    least_used=$( \
+        awk 'BEGIN {idle = 0; max = 0} 
+        /^cpu[0-9]+/ {
+            idle=$5+$6; 
+            if(idle >= max) {max=idle; name=$1}
+        }
+        END {printf "%s", name}' $CPU_USAGE_FILE \
+    )
+    most_used=$( \
+        awk 'BEGIN {total = 0; max = 0; name=""}
+        /^cpu[0-9]+/ {
+        total=$2+$3+$4; 
+        if(total >= max){ name=$1; max=total;} 
+        } END {printf "%s", name}' $CPU_USAGE_FILE \
+    )
+    echo "least=$least_used"
+    echo "most=$most_used"
+}
 
 get_running_total() {
     # function reads processes running and total processes from loadavg
