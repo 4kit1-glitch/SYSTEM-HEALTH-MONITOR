@@ -72,9 +72,11 @@ get_cpu_usage() {
     echo -en "$usage" ## i know you might want to use printf but dont it doesnt work i dont know why
 }
 
-# this function is quite slow cause it waits the core amount times in seconds 
-# might need refatoring 
+
 get_cores_usage() {
+    # this function is quite slow cause it waits the core amount times in seconds 
+    # might need refatoring 
+    # avoid running if possible
     # actually gets the info but will process later
     local -r CORES=$(get_cpu_cores)
     local -A core_usages
@@ -109,12 +111,14 @@ get_running_total() {
 }
 
 get_system_uptime() {
-    uptime_value=($(cat /proc/uptime))
-    days=$((uptime_value[0]*86400))
-    hours=$(( (uptime_value[0]*3600) % 86400 ))
-    minutes=$(( (uptime_value[0]*60) % 3600 ))
-    seconds=$(( uptime_value[0] % 60 ))
+    read -r uptime_secs idle_secs < $UPTIME_INFO_FILE
 
-    echo "$days days $hours hours $minutes minutes $seconds seconds"
-    echo pass
+    local uptime_mins=$( bc -q <<< "scale=0; $uptime_secs / 60")
+    local uptime_hrs=$( bc -q <<< "scale=0; $uptime_mins / 60")
+    local uptime_days=$( bc -q <<< "scale=0; $uptime_hrs / 24")
+    local uptime_weeks=$( bc -q <<< "scale=0; $uptime_days / 7")
+
+    # output order is secs:mins:hrs:days:weeks:idle_secs
+    printf "%s:%s:%s:%s:%s:%s" \
+        "$uptime_secs" "$uptime_mins" "$uptime_hrs" "$uptime_days" "$uptime_weeks" "$idle_secs"
 }
