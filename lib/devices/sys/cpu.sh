@@ -97,7 +97,7 @@ get_cores_usage() {
 
 # fix this
 get_most_least_core() {
-    # this doesnt fucking work 
+    
     least_used=$( \
         awk 'BEGIN {idle = 0; max = 0} 
         /^cpu[0-9]+/ {
@@ -113,8 +113,7 @@ get_most_least_core() {
         if(total >= max){ name=$1; max=total;} 
         } END {printf "%s", name}' $CPU_USAGE_FILE \
     )
-    echo "least=$least_used"
-    echo "most=$most_used"
+    printf "%s:%s" "$most_used" "$least_used"
 }
 
 get_running_total() {
