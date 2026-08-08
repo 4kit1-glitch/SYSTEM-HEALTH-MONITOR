@@ -2,13 +2,16 @@
 # vim: noai:ts=4:sw=4:expandtab
 # shellcheck source=/dev/null
 # shellcheck disable=2155
+# TERMAL INFO HANDLED IN temparature.sh
+#
+
+readonly CONFIG_DIR="$XDG_CONFIG_HOME"
 
 # static info
 readonly CPU_INFO_FILE="/proc/cpuinfo"
 readonly LOAD_INFO_FILE="/proc/loadavg"
 readonly CPU_USAGE_FILE="/proc/stat"
 readonly UPTIME_INFO_FILE="/proc/uptime"
-readonly THERMAL_INFO_FILE="/sys/class/thermal"
 
 get_cpu_model_info() {
     [[ -f "$CPU_INFO_FILE" ]] && {
@@ -87,6 +90,8 @@ get_cores_usage() {
     done
 
 }
+
+# fix this
 get_most_least_core() {
     # this doesnt fucking work 
     least_used=$( \
@@ -121,4 +126,17 @@ get_system_uptime() {
     # output order is secs:mins:hrs:days:weeks:idle_secs
     printf "%s:%s:%s:%s:%s:%s" \
         "$uptime_secs" "$uptime_mins" "$uptime_hrs" "$uptime_days" "$uptime_weeks" "$idle_secs"
+}
+
+
+
+write_cpu_config() {
+    CPU_CONFIG="$CONFIG_DIR/cpu.conf"
+    mkdir -p "$CONFIG_DIR"
+    {
+        echo "cpu_model=\"$(get_cpu_model_info)\""
+        echo "cpu_cores=\"$(get_cpu_cores)\""
+        echo "cpu_usage=\"$(calculate_usage cpu)\""
+    } > "$CPU_CONFIG" 
+
 }
